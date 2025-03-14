@@ -3,6 +3,10 @@
 #include <string.h>
 
 
+typedef struct {
+    int position;
+};
+
 int reader(char *filename) {
     // printf("Reading bytes file %s\n", filename);
     int num_bytes;
@@ -14,7 +18,7 @@ int reader(char *filename) {
             return 1;
         }
         num_bytes = atoi(buffer);
-    } while (num_bytes == 0);  //repeat until valid number
+    } while (num_bytes == 0); //repeat until valid number
 
     char readBuffer[num_bytes + 1];
     FILE *file = fopen(filename, "r");
@@ -35,10 +39,26 @@ int reader(char *filename) {
     return 0;
 }
 
-int writer() {
+int writer(char *filename) {
+    char buffer[1024];
+    printf("Enter the data you want to write:\n");
+    fgets(buffer, 1024, stdin);
+
+    FILE *file = fopen(filename, "w");
+    if (!file) {
+        printf("Could not open file %s\n", filename);
+        return 1;
+    }
+    fprintf(file, "%s", buffer); //write to the file
+
+    fclose(file); //close the file
+    return 0;
+
 }
 
-int seeker() {
+int seeker(char *filename) {
+    //fseek(FILE *filePointer, long offset, int origin);
+
 }
 
 
@@ -58,8 +78,6 @@ int main(int argc, const char *argv[]) {
     }
 
     while (1) {
-        int in_char;
-
         printf("Option (r for read, w for write, s for seek): \n");
         char choice = getchar();
         while (getchar() != '\n'); //consume leftover characters
@@ -74,7 +92,11 @@ int main(int argc, const char *argv[]) {
 
                 break;
             case 'w':
-                printf("Writing to file %s\n", filename);
+                int writer_result = writer(filename);
+                if (writer_result != 0) {
+                    printf("Error writing file %s\n", filename);
+                }
+
                 break;
             case 's':
                 printf("Seeking to file %s\n", filename);
