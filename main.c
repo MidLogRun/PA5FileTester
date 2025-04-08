@@ -11,7 +11,7 @@ typedef struct {
 
 int reader(my_file_t *fp) {
     if (!fp->file) {
-        printf("File pointer is null or not opened %s\n", fp);
+        printf("File pointer is null or not opened %s\n", fp->filename);
         return 1;
     }
 
@@ -42,7 +42,7 @@ int reader(my_file_t *fp) {
 
 int writer(my_file_t *fp) {
     if (!fp->file) {
-        printf("filepointer is null  %s\n", fp);
+        printf("filepointer is null  %s\n", fp->filename);
         return 1;
     }
 
